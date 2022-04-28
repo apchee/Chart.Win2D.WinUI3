@@ -8,12 +8,12 @@
 
   <Identity
     Name="2d5ad655-a9ec-423b-b88c-6646006bf9ff"
-    Publisher="CN=dchen2"
+    Publisher="CN=Dominic"
     Version="1.0.0.0" />
 
   <Properties>
     <DisplayName>Chart.Demo</DisplayName>
-    <PublisherDisplayName>dchen2</PublisherDisplayName>
+    <PublisherDisplayName>Dominic</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 

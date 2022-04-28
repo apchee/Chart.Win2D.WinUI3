@@ -1,5 +1,11 @@
 /.vs
+/*.bak
 /Chart.Demo/bin
 /Chart.Demo/obj
+/Chart.Demo/*.bak
+/Chart.Demo/*.user
+/Chart.Demo/Chart.Demo.csproj.user
 /Chart.Win2D.WinUI3/bin
 /Chart.Win2D.WinUI3/obj
+/Chart.Win2D.WinUI3/*.user
+/Chart.Win2D.WinUI3/*.bak
