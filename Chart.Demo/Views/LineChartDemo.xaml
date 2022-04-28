@@ -1,0 +1,59 @@
+﻿<Page
+    x:Class="Chart.Demo.Views.LineChartDemo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:usercontrols="using:ChartBase.Chart.UserControls"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Loaded="Page_Loaded" Unloaded="Page_Unloaded">
+
+    <Grid>
+        <ScrollViewer>
+            <Grid >
+                <StackPanel >
+                    <Grid ColumnDefinitions="*,*">
+                        <Border BorderThickness="0.5" BorderBrush="Gray">
+                            <usercontrols:LineChart Height="700"
+                                    Combination="Individual"
+                                    PrimaryChartData="{Binding LineChartIndividual}"/>
+                        </Border>
+                        <Border Grid.Column="1" BorderThickness="0.5" BorderBrush="Gray">
+                            <usercontrols:LineChart Height="700"
+                                    Combination="Comparision"
+                                    PrimaryChartData="{Binding LineChartComparision}"/>
+                        </Border>
+                    </Grid>
+                    <Grid ColumnDefinitions="*,*">
+                        <Border BorderThickness="0.5" BorderBrush="Gray">
+                            <usercontrols:LineChart Height="700"
+                                    Combination="Combination"
+                                    PrimaryChartData="{Binding LineChartCombination}"/>
+                        </Border>
+                        <Border Grid.Column="1" BorderThickness="0.5" BorderBrush="Gray">
+                            <usercontrols:ComparisonLineChart Height="700"
+                                    Combination="Comparision"
+                                    PrimaryChartData="{Binding LineChartComparision}"/>
+                        </Border>
+                        
+                    </Grid>
+                    <Grid ColumnDefinitions="*,*">
+                        <Border BorderThickness="0.5" BorderBrush="Gray">
+                            <usercontrols:LineChart Height="700"
+                                    Combination="Combination"
+                                    PrimaryChartData="{Binding LineChartDataCombination}"/>
+                        </Border>
+                        
+                        <Border Grid.Column="1" BorderThickness="0.5" BorderBrush="Gray">
+                            <usercontrols:LineChart Height="700"
+                                    Combination="Combination"
+                                    PrimaryChartData="{Binding PrimaryLineChartOverlay}"
+                                                    SecondaryChartData="{Binding SecondaryLineChartOverlay}"/>
+                        </Border>                        
+                    </Grid>
+
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</Page>

@@ -1,0 +1,31 @@
+﻿<Window
+    x:Class="Chart.Demo.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d" Activated="Window_Activated">
+
+    <Grid>
+        <SplitView Name="MySplitView" DisplayMode="CompactOverlay" OpenPaneLength="300" CompactPaneLength="45">
+            <SplitView.Pane>
+                <StackPanel>
+                    <Button Name="HamburgerButton" FontFamily="Segoe MDL2 Assets" FontSize="24" Content="&#xE700;" Click="HamburgerButton_Click"></Button>
+                    <ListBox SelectionMode="Single" SelectionChanged="ListBox_SelectionChanged" KeyDown="ListBox_KeyDown">
+                        <StackPanel Orientation="Horizontal" Name="LineChart" Margin="0" Padding="0" Tag="LineChart">
+                            <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="20" Text="&#xEAFC;" Margin="0" Padding="0"/>
+                            <TextBlock Margin="10,0,0,0" Padding="5,0,0,0">Line Chart</TextBlock>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Name="BarChart" Margin="0" Padding="0" Tag="BarChart">
+                            <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="20" Text="&#xEE64;" Margin="0" Padding="0"/>
+                            <TextBlock Margin="10,0,0,0" Padding="5,0,0,0">Line Chart</TextBlock>
+                        </StackPanel>
+                    </ListBox>                    
+                </StackPanel>
+            </SplitView.Pane>
+            <SplitView.Content>
+                <Frame Name="MyFrame"/>
+            </SplitView.Content>
+        </SplitView>
+    </Grid>
+</Window>

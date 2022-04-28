@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Chart.Demo (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "Chart.Demo (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

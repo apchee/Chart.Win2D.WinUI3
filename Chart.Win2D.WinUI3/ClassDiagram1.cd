@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="ChartBase.Chart.Controls.ControlBase" Collapsed="true">
+    <Position X="13.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQSAAAIAAEADgAAAAIAAACAAAAAAAYBAAAAAAAAYgA=</HashCode>
+      <FileName>Chart\Controls\ControlBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ChartBase.Chart.Controls.ControlContainerBase" Collapsed="true">
+    <Position X="5.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQCAAAIAAAARgAAgAAAAAAAAAAAAAABAAAAAABAAIA=</HashCode>
+      <FileName>Chart\Controls\ControlContainerBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ChartBase.Chart.Controls.LegendContainer" Collapsed="true">
+    <Position X="3.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQCAAAAAAAABgAAgAAAAIAAAAAAABAIAAAAAABAAIA=</HashCode>
+      <FileName>Chart\Controls\LegendContainer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ChartBase.Chart.UserControls.BarChartControl" Collapsed="true">
+    <Position X="5.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQiAAABAAAAAgAAgAAAAIAAAAAAAAAAAAAAAABAAIA=</HashCode>
+      <FileName>Chart\UserControls\BarChartControl.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ChartBase.Chart.UserControls.LineChartControl" Collapsed="true">
+    <Position X="7.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQiAAAJAAAABgAAgAAAAJAAAAAAAAAAAAAAAABAAIA=</HashCode>
+      <FileName>Chart\UserControls\LineChartControl.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="System.Object" Collapsed="true">
+    <Position X="9.25" Y="4" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="ChartBase.Chart.Controls.LineControlContainer" Collapsed="true">
+    <Position X="10.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQCEAAIAAAAAgAAAAAAAAABAAAAAAABAAAAAAAAAAA=</HashCode>
+      <FileName>Chart\Controls\LineControlContainer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ChartBase.Chart.Controls.SizableControl" Collapsed="true">
+    <Position X="12.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAgAACAAAAAAEACCAAAAAABAAABAAAABAA=</HashCode>
+      <FileName>Chart\Controls\SizableControl.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ChartBase.Chart.Elements.CycleElement" Collapsed="true">
+    <Position X="14.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAKAAAIAAAAAgAAAAAAAAAAACAACAABAAAAAAAAAAA=</HashCode>
+      <FileName>Chart\Elements\CycleElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ChartBase.Chart.Elements.StraightLine" Collapsed="true">
+    <Position X="17" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAIAAAAAgAAAAAAACAgAAAAAAABAAAAAAAAAAA=</HashCode>
+      <FileName>Chart\Elements\StraightLine.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Chart.Framework.Elements.ImageElement" Collapsed="true">
+    <Position X="9.25" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACQCUAAIAAAEAgAAEBgAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Chart\Elements\ImageElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ChartBase.Chart.Elements.LabelElement" Collapsed="true">
+    <Position X="11.5" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACABAIAAAAAgAAAAAAAgQAAAAAAAAAAEAACAAAAAA=</HashCode>
+      <FileName>Chart\Elements\LabelElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ChartBase.Chart.Elements.RectangleElement" Collapsed="true">
+    <Position X="13.75" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABgAAAAAAAAAAAAAACAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Chart\Elements\RectangleElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ChartBase.Chart.Elements.TextElement" Collapsed="true">
+    <Position X="16" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAABAgAAQAAgAAAAAAAgQAgAAAAADAAEAACAAgAAA=</HashCode>
+      <FileName>Chart\Elements\TextElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
