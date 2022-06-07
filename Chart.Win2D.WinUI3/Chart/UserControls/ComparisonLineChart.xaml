@@ -25,13 +25,14 @@
                 Value="{Binding SeriesIndexSliderValue, ElementName=ComparisonLineChartControl, Mode=TwoWay}"/>
         
         <Grid Grid.Row="1" ColumnDefinitions="*,Auto">
-            <Slider Margin="100,0,10,0" 
-                    Minimum="{Binding MiniumSteps, ElementName=ComparisonLineChartControl}" 
-                    Maximum="{Binding MaximumSteps, ElementName=ComparisonLineChartControl}" 
+            <Slider Name="BasicIndexSlider" Margin="100,0,10,0" 
+                    Minimum="{Binding MiniumIndexOfView, ElementName=ComparisonLineChartControl}" 
+                    Maximum="{Binding MaximumIndexOfView, ElementName=ComparisonLineChartControl}" 
                     SmallChange="{Binding SmallChange}"                     
-                    Value="{Binding CurrentValue}"
+                    Value="{Binding CurrentValue, Mode=TwoWay}"
                     ValueChanged="ComparingBasingIndexChanged" />
-            <TextBox Name="SliberValueInputBox" Width="50" FontSize="14" Grid.Column="1" KeyDown="SliberValueTextBox_KeyDown" Margin="0,0,30,0"/>
+            <TextBox Name="BasicIndexSliderViewValue" Width="50" FontSize="14" Grid.Column="1" Text="{Binding BasicComparisonIndex, Mode=TwoWay}"
+                     KeyDown="SliberValueTextBox_KeyDown" Margin="0,0,30,0"/>
         </Grid>
         
         <xaml:CanvasControl x:Name="MyCanvas" Grid.Row="2"

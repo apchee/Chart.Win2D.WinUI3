@@ -95,7 +95,7 @@ public enum CombinationType
     Comparision
 }
 
-public enum MarkerType
+public enum MarkerShape
 {
     UnMarkable,
     Point,

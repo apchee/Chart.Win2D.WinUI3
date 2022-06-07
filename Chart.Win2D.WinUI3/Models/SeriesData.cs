@@ -52,7 +52,19 @@ public class BounchOfSeries<T>  where T : PointShape
     public float MinVirtualValue { get; private set; }
 
     public float MaxVirtualValue { get; private set; }
-    public int ComparingPointIndex { get; set; } = 0;
+
+    private int _comparingPointIndex;
+    public int ComparingPointIndex
+    {
+        get { return _comparingPointIndex; }
+        set
+        {
+            if (value < 0)
+                _comparingPointIndex = 0;
+            else
+                _comparingPointIndex = value;
+        }
+    }
 
     //public LegendItem[] Legends{ get; set; }
 

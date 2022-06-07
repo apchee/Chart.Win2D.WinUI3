@@ -1,5 +1,6 @@
 ﻿using Microsoft.UI;
 using System;
+using System.Collections.Generic;
 using Windows.UI;
 
 namespace ChartBase.Models;
@@ -21,7 +22,7 @@ public class PointArray<T>:ICloneable
     public Color LineColor { get; set; } = Colors.Transparent;
     public float LineWidth { get; set; } = 1f;
 
-    public MarkerType Marker { get; set; } = MarkerType.Point;
+    public MarkerShape Marker { get; set; } = MarkerShape.Point;
 
     public bool MarkValue { get; set; } = true;
     public int ValueUnit { get; set; } = 1;
@@ -39,7 +40,16 @@ public class PointArray<T>:ICloneable
 
     public object Clone()
     {
-        return this.MemberwiseClone();
+        var clone = (PointArray<T>)this.MemberwiseClone();
+        HandleCloned(clone);
+        return clone;
+    }
+
+    private void HandleCloned(PointArray<T> clone)
+    {
+        var series = new List<T>(this.DataPoints);
+        clone.DataPoints = series.ToArray();
+        clone.Id = ViewWindow.Uid();
     }
 }
 

@@ -15,7 +15,7 @@ public class LegendItem
     public int Length { get { return Text == null ? 0 : Text.Length; } }
     public bool IsClicked { get; set; } = false;
     public bool IsOnHovoring { get; set; } = false;
-    public MarkerType Marker { get; set; }
+    public MarkerShape Marker { get; set; }
     public float ActualWidth { get;  set; }
     public Color HoveringForgroundColor { get; set; }
     public float StrokeWidth { get; set; }

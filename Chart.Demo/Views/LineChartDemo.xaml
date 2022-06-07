@@ -52,6 +52,15 @@
                         </Border>                        
                     </Grid>
 
+                    <Grid ColumnDefinitions="*,*">
+                        <Border Grid.Column="1" BorderThickness="0.5" BorderBrush="Gray">
+                            <usercontrols:LineChart Height="700"
+                                    Combination="Combination"
+                                    PrimaryChartData="{Binding MainChart}"
+                                                    SecondaryChartData="{Binding OverlayChart}"/>
+                        </Border>
+                    </Grid>
+
                 </StackPanel>
             </Grid>
         </ScrollViewer>

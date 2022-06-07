@@ -14,7 +14,7 @@ public class SceneViewWindow
     // X_Step 为全局值, 因为X轴只会有一个
     // 该变量应该保存在 ViewBoard 对象中
     // 该值应该在其主控件中计算
-    public float X_Step { get; set; }
+    public float X_StepSpace { get; set; }
 
     // The legth of this array should be the same as HorizentalTickCoordinators its value is X_Step
     public string[] HorizentalTicks { get; set; }

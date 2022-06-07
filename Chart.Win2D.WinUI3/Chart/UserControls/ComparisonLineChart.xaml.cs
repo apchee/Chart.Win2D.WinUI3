@@ -78,6 +78,78 @@ public sealed partial class ComparisonLineChart : UserControlBase, INotifyProper
     {
         return (float)MyCanvas.ActualHeight;
     }
+
+
+    private List<PointArray<float?>> inputDataSeries;
+    private string[] originalInputHorizentalTicks;
+    private int dataPointSizeOfSeries;
+
+
+    protected override void PrimarySeriesDataChanged()
+    {
+        inputDataSeries = new List<PointArray<float?>>();
+        originalInputHorizentalTicks = null;
+        dataPointSizeOfSeries = 0;
+
+        isCanvasReady = false;
+
+        if (!VerifyDataValidation())
+            return;
+
+        // Cache input series data somewhere
+        foreach (var item in PrimaryChartData.InputDataSeries)
+        {
+            var clone = (PointArray<float?>)item.Clone();
+            //float?[] dps = new float?[item.DataPoints.Length];
+            //Array.Copy(item.DataPoints, 0, dps, 0, item.DataPoints.Length);
+            //clone.DataPoints = dps;
+            inputDataSeries.Add(clone);
+        }
+
+        originalInputHorizentalTicks = PrimaryChartData.HorizentalTicks;
+        dataPointSizeOfSeries = PrimaryChartData.GetDataPointSizeOfSeries();
+        MaxSeriesIndexSliderSteps = originalInputHorizentalTicks.Length - 1;
+
+        int comparisonBaseIndexFromLast = originalInputHorizentalTicks.Length - PrimaryChartData.ComparisingIndex;
+        
+        if (PrimaryChartData.RangeOfBeginningIndexFromLast > 0 && originalInputHorizentalTicks.Length > PrimaryChartData.RangeOfBeginningIndexFromLast)
+        {
+            SeriesIndexSliderValue = originalInputHorizentalTicks.Length - PrimaryChartData.RangeOfBeginningIndexFromLast;
+
+            RerangeSeriesScope(PrimaryChartData.RangeOfBeginningIndexFromLast);
+            //PrimaryChartData.ComparisingIndex = PrimaryChartData.HorizentalTicks.Length - comparisonBaseIndexFromLast;
+            CurrentValue = PrimaryChartData.ComparisingIndex;
+        }
+
+
+        if (PrimaryChartData.ComparisingIndex < MaxSeriesIndexSliderSteps - 1)
+        {
+            /*
+            int originalComparisingIndex = MaxSeriesIndexSliderSteps - PrimaryChartData.ComparisingIndex;
+            int showDataPointSeizeFromLast = originalComparisingIndex;
+            if (showDataPointSeizeFromLast < 10)
+                showDataPointSeizeFromLast = 10;
+            if (showDataPointSeizeFromLast < 20)
+                showDataPointSeizeFromLast = 20;
+            int more = (int)(showDataPointSeizeFromLast * 0.2);
+            if (more < 5)
+                more = 5;
+            int beginningIndex = MaxSeriesIndexSliderSteps - (showDataPointSeizeFromLast + more);
+            if (beginningIndex < 0)
+                beginningIndex = 0;
+            int seriesIndexValue = int.Parse( PrimaryChartData.HorizentalTicks[beginningIndex]);
+            PrimaryChartData.CutOffBySeriesValue(seriesIndexValue);
+            SeriesIndexSliderValue = beginningIndex;
+
+            PrimaryChartData.ComparisingIndex = PrimaryChartData.DataPointSizeOfOneSeries() - originalComparisingIndex;
+         */
+        }
+    }
+
+    protected override void SecondarySeriesDataChanged()
+    {
+
+    }
     #endregion
 
     #region Events 
@@ -86,7 +158,8 @@ public sealed partial class ComparisonLineChart : UserControlBase, INotifyProper
         if (PrimaryChartData.ComparisingIndex != (int)e.NewValue)
         {
             PrimaryChartData.ComparisingIndex = (int)e.NewValue;
-            SliberValueInputBox.Text = $"{PrimaryChartData.ComparisingIndex}";
+            BasicComparisonIndex = PrimaryChartData.ComparisingIndex;
+            BasicIndexSliderViewValue.Text = $"{BasicComparisonIndex}";
             Update();
         }
     }
@@ -95,16 +168,19 @@ public sealed partial class ComparisonLineChart : UserControlBase, INotifyProper
     {
         if (!isCanvasReady)
             return;
-
+        var currentIndexFromLast = MaximumIndexOfView - CurrentValue;
         int showPointSize = dataPointSizeOfSeries - (int)e.NewValue;
         if(showPointSize < 20)
             showPointSize = 20;
         if(showPointSize > dataPointSizeOfSeries)
             showPointSize = dataPointSizeOfSeries;
         var value = ((Slider)sender).Value;
-        MaximumSteps = showPointSize - 1;
-        CurrentValue = MaximumSteps / 2;
+        MaximumIndexOfView = showPointSize - 1;
+        CurrentValue = MaximumIndexOfView -currentIndexFromLast;
         RerangeSeriesScope(showPointSize);
+        PrimaryChartData.ComparisingIndex = CurrentValue;
+
+        Update();
     }
 
     private void SliberValueTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
@@ -121,6 +197,7 @@ public sealed partial class ComparisonLineChart : UserControlBase, INotifyProper
                     tmpValue = SceneManager.PrimaryScene.SceneViewWin.HorizentalTickCoordinators.Length - 1 + sliderValue;
                 }
                 PrimaryChartData.ComparisingIndex = tmpValue;
+                BasicComparisonIndex = tmpValue;
                 Update();
             }
         }
@@ -150,13 +227,19 @@ public sealed partial class ComparisonLineChart : UserControlBase, INotifyProper
 
     protected override void BeforeCanvasInvalidate()
     {
-        MaximumSteps = SceneManager.PrimaryScene.SceneViewWin.HorizentalTickCoordinators.Length-1;
+        if (SceneManager.PrimaryScene.SceneViewWin.HorizentalTickCoordinators == null)
+            return;
+        // var baseIndexFromLast = MaximumIndexOfRange - BasicComparisonIndex;
+        MaximumIndexOfView = SceneManager.PrimaryScene.SceneViewWin.HorizentalTickCoordinators.Length-1;
+        //MiniumIndexOfView = PrimaryChartData.RangeOfBeginningIndexFromLast;
         CurrentValue = PrimaryChartData.ComparisingIndex;
-        if(CurrentValue > PrimaryChartData.ComparisingIndex)
-            CurrentValue = PrimaryChartData.ComparisingIndex;
-        CurrentValue = PrimaryChartData.ComparisingIndex;
-        SliberValueInputBox.Text = $"{CurrentValue}";
-
+        if (CurrentValue > MaximumIndexOfView)
+        {
+            CurrentValue = MaximumIndexOfView;
+            PrimaryChartData.ComparisingIndex = CurrentValue;
+        }
+        //SliberValueInputBox.Text = $"{CurrentValue}";
+        BasicComparisonIndex = CurrentValue;
         isCanvasReady = true;
     }
 
@@ -170,61 +253,6 @@ public sealed partial class ComparisonLineChart : UserControlBase, INotifyProper
         base.UserControlBase_Loaded(sender, e);
     }
 
-    private List<PointArray<float?>> inputDataSeries;
-    private string[] originalInputHorizentalTicks;
-    private int dataPointSizeOfSeries;
-    protected override void PrimarySeriesDataChanged()
-    {
-        inputDataSeries = new List<PointArray<float?>>();
-        originalInputHorizentalTicks = null;
-        dataPointSizeOfSeries = 0;
-
-        isCanvasReady = false;
-
-        if (!VerifyDataValidation())
-            return;
-
-        // Cache input series data somewhere
-        foreach(var item in PrimaryChartData.InputDataSeries)
-        {
-            var clone = (PointArray<float?>)item.Clone();
-            //float?[] dps = new float?[item.DataPoints.Length];
-            //Array.Copy(item.DataPoints, 0, dps, 0, item.DataPoints.Length);
-            //clone.DataPoints = dps;
-            inputDataSeries.Add(clone);
-        }
-
-        originalInputHorizentalTicks = PrimaryChartData.HorizentalTicks;
-        dataPointSizeOfSeries = PrimaryChartData.GetDataPointSizeOfSeries();
-        MaxSeriesIndexSliderSteps = originalInputHorizentalTicks.Length-1;
-
-        if (PrimaryChartData.ComparisingIndex < MaxSeriesIndexSliderSteps - 1)
-        {
-            int originalComparisingIndex = MaxSeriesIndexSliderSteps - PrimaryChartData.ComparisingIndex;
-            int showDataPointSeizeFromLast = originalComparisingIndex;
-            if (showDataPointSeizeFromLast < 10)
-                showDataPointSeizeFromLast = 10;
-            if (showDataPointSeizeFromLast < 20)
-                showDataPointSeizeFromLast = 20;
-            int more = (int)(showDataPointSeizeFromLast * 0.2);
-            if (more < 5)
-                more = 5;
-            int beginningIndex = MaxSeriesIndexSliderSteps - (showDataPointSeizeFromLast + more);
-            if (beginningIndex < 0)
-                beginningIndex = 0;
-            int seriesIndexValue = int.Parse( PrimaryChartData.HorizentalTicks[beginningIndex]);
-            PrimaryChartData.CutOffBySeriesValue(seriesIndexValue);
-            SeriesIndexSliderValue = beginningIndex;
-
-            PrimaryChartData.ComparisingIndex = PrimaryChartData.DataPointSizeOfOneSeries() - originalComparisingIndex;
-            
-        }
-    }
-
-    protected override void SecondarySeriesDataChanged()
-    {
-        
-    }
     #endregion
 
     private void RerangeSeriesScope(int showPointLength)
@@ -258,12 +286,11 @@ public sealed partial class ComparisonLineChart : UserControlBase, INotifyProper
         else
         {
             PrimaryChartData.HorizentalTicks = originalInputHorizentalTicks;
-        }
-        Update();
+        }        
     }
 
     private int _MiniumSteps;
-    public int MiniumSteps
+    public int MiniumIndexOfView
     {
         get { return _MiniumSteps; }
         set
@@ -271,14 +298,14 @@ public sealed partial class ComparisonLineChart : UserControlBase, INotifyProper
             if (_MiniumSteps != value)
             {
                 _MiniumSteps = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(MiniumSteps)));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(MiniumIndexOfView)));
             }
 
         }
     }
 
     private int _MaximumSteps;
-    public int MaximumSteps
+    public int MaximumIndexOfView
     {
         get { return _MaximumSteps; }
         set
@@ -286,7 +313,7 @@ public sealed partial class ComparisonLineChart : UserControlBase, INotifyProper
             if (_MaximumSteps != value)
             {
                 _MaximumSteps = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(MaximumSteps)));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(MaximumIndexOfView)));
             }
 
         }
@@ -351,6 +378,21 @@ public sealed partial class ComparisonLineChart : UserControlBase, INotifyProper
 
         }
     }
+
+
+    public int BasicComparisonIndex
+    {
+        get { return (int)GetValue(BasicComparisonIndexProperty); }
+        set { SetValue(BasicComparisonIndexProperty, value); }
+    }
+
+    public static readonly DependencyProperty BasicComparisonIndexProperty =
+        DependencyProperty.Register(
+            nameof(BasicComparisonIndex),
+            typeof(int),
+            typeof(ComparisonLineChart),
+            new PropertyMetadata(default(int))
+        );
 
 
 }

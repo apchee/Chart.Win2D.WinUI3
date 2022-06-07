@@ -33,6 +33,8 @@ public class BarChartControl : ControlContainerBase
         otherControls.Clear();
     }
 
+    public bool IsSecondaryChart { get; set; } = false;
+
     public override void Update(GenericInput gi, TimeSpan ts)
     {
         BounchOfSeries<PointShape> Serieses;
@@ -51,38 +53,57 @@ public class BarChartControl : ControlContainerBase
         if (SceneViewWin == null)
             return;
 
-        SceneViewWin.HorizentalTickCoordinators = new (bool, float)[Serieses.MaxPointSize()];
-
-        ViewWindow globalVewWin = Scene.SceneManager.GlobalViewWindow;
+        /*
+         * 以显示从 [2015, 2022] 年的每个季度的营业额为例
+         * 总共有 8 组, 所以 groupSize 为 8. 因为有四个季度, 所以 groupMemberSize 为 4, 
+         * 即 Serieses 包含四个序列, 每个序列有 8 个数据点
+         */
 
         // how may groups of charts(即一个数据序列的点的个数)
         int groupSize = Serieses.MaxPointSize();
 
-        SceneViewWin.X_Step = (globalVewWin.RoomSolid_Right_X - globalVewWin.RoomSolid_Left_X) / Serieses.MaxPointSize();
+        // 总共有多少个点
+        int groupMemberSize = Serieses.Length;
+
+
+        SceneViewWin.HorizentalTickCoordinators = new (bool, float)[groupSize];
+
+        ViewWindow globalVewWin = Scene.SceneManager.GlobalViewWindow;                
+
+        // 每一组 bar char 所占空间
+        SceneViewWin.X_StepSpace = (globalVewWin.RoomSolid_Right_X - globalVewWin.RoomSolid_Left_X) / groupSize;
 
         // bar chart 两边留空及每组 bar charts之间的留空
-        float emptySpace = SceneViewWin.X_Step / (Serieses.Length+1);
+        float emptySpace = SceneViewWin.X_StepSpace / (groupMemberSize + 1);
         emptySpace *= 1.5f;
 
         // 两边各有一个留空, 所以留空的个数要比数据点个数多一个
-        float totalEmptySpaces = emptySpace * (groupSize + 1);
+        float totalEmptySpaces;
+        if(!IsSecondaryChart)
+            totalEmptySpaces = emptySpace * (groupSize + 1);
+        else
+            totalEmptySpaces = emptySpace * groupSize;
 
         // 每一组 bar charts 的实际宽度 = (Room 的有效宽度 - 全部留空宽度之和) / 数据点数
         float groupBarWidth = (globalVewWin.RoomSolid_Width - totalEmptySpaces) / groupSize;
+        
         float halfGroupBarChartWidth = groupBarWidth / 2;
 
         // 每一个 bar chart 的宽度
-        float barWidth = groupBarWidth / Serieses.Length;
+        float barWidth = groupBarWidth / groupMemberSize;
 
         float beginningX = globalVewWin.RoomSolid_Left_X;
-        for (int i = 0; i < Serieses.MaxPointSize(); i++)
+        for (int i = 0; i < groupSize; i++)
         {
-            beginningX += emptySpace;
+            if(i == 0 && IsSecondaryChart)
+                beginningX += emptySpace/2;
+            else
+                beginningX += emptySpace;
             // X tick scale
             SceneViewWin.HorizentalTickCoordinators[i] = (true, beginningX + halfGroupBarChartWidth);
 
             // Coordinate of each group of bar charts
-            for (int j = 0; j < Serieses.Length; j++)
+            for (int j = 0; j < groupMemberSize; j++)
             {
                 PointSeries<PointShape> ps = Serieses[j];
                 RectangleShape dataPoint = new RectangleShape(ViewWindow.Uid(), ps[i].RealValue, ps[i]);

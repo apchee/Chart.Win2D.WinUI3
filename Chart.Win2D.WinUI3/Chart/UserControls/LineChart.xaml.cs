@@ -39,8 +39,6 @@ public sealed partial class LineChart : UserControlBase
 
     private void MyCanvas_PointerMoved(object sender, PointerRoutedEventArgs e)
     {
-        //Logger.WriteLine(GetType(), new StackTrace(0, true), "");
-
         PointerPoint p = e.GetCurrentPoint((UIElement)sender);
 
         MouseGenericInput mgi = new MouseGenericInput((float)p.Position.X, (float)p.Position.Y);
@@ -60,25 +58,10 @@ public sealed partial class LineChart : UserControlBase
         InputManager.AddInputItem(mgi);
     }
 
-    //private void UserControlBase_Loaded(object sender, RoutedEventArgs e)
-    //{
-    //    Logger.WriteLine(GetType(), new StackTrace(0, true), "");
-    //    PageLoaded = true;
-    //}
-
-    //private void UserControlBase_Unloaded(object sender, RoutedEventArgs e)
-    //{
-    //    Logger.WriteLine(GetType(), new StackTrace(0, true), "");
-    //    PageLoaded = false;
-    //}
-
     private void BoardSize_Changed(object sender, SizeChangedEventArgs e)
     {
         Logger.WriteLine(GetType(), new StackTrace(0, true), $"Actual Width: {(float)MyCanvas.ActualWidth}  ActualHeight: {(float)MyCanvas.ActualHeight}");
 
-        //SceneManager.CleanElements();
-        //SceneManager.CanvasSizeChanged((float)MyCanvas.ActualWidth, (float)MyCanvas.ActualHeight);
-        //UpdateDataAndResource();
         Update();
     }
 
@@ -95,15 +78,6 @@ public sealed partial class LineChart : UserControlBase
     }
 
 
-
-    //protected override void UpdateDataAndResource()
-    //{        
-    //    Logger.WriteLine(GetType(), new StackTrace(0, true), $"{Environment.NewLine}{Environment.StackTrace}");
-    //    CalcCoordinate(MyCanvas);
-    //    UpdateCanvasData(MyCanvas, new GenericInput("Unknow") { Creator = MyCanvas });
-    //    MyCanvas.Invalidate();
-    //}
-
     protected override IControlContainer CreateMainContainerChartControl()
     {
         return new LineChartControl();
@@ -118,13 +92,16 @@ public sealed partial class LineChart : UserControlBase
         if (SecondaryChartData != null && SecondaryChartData.Count > 0)
         {
             var tmpScene = new CombinationScene(SceneManager) { IsPrimaryScene = false };
-            SceneManager.AddScene(tmpScene);
+            SceneManager.AddFirstScene(tmpScene);
             foreach (var chartData in SecondaryChartData)
             {
                 if (chartData == null || chartData.InputDataSeries == null || chartData.InputDataSeries.Count == 0)
                     continue;
-
-                tmpScene.SetContainerControl(new LineChartControl());
+                if(chartData.ChartType == Models.CHART_TYPE.LINE_CHART)
+                    tmpScene.SetContainerControl(new LineChartControl());
+                else if (chartData.ChartType == Models.CHART_TYPE.BAR_CHART){
+                    tmpScene.SetContainerControl(new BarChartControl() { IsSecondaryChart = true});
+                }
                 tmpScene.DataTransformation(chartData);
             }
         }

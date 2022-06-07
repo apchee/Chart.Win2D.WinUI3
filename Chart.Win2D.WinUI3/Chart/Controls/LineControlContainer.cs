@@ -49,7 +49,7 @@ public class LineControlContainer : ControlBase
         }
 
         // Marker
-        if (dataPoints.Marker == MarkerType.Circle || dataPoints.Marker == MarkerType.Point)
+        if (dataPoints.Marker == MarkerShape.Circle || dataPoints.Marker == MarkerShape.Point)
         {
             float cycleSize = dataPoints.LineWidth + 2;
             if (dataPoints.IsSelected)
@@ -58,7 +58,7 @@ public class LineControlContainer : ControlBase
             {
                 if (dataPoint.IsValidPoint)
                 {
-                    bool fill = dataPoints.Marker == MarkerType.Point ? true : false;
+                    bool fill = dataPoints.Marker == MarkerShape.Point ? true : false;
 
                     var marker = new CycleElement(dataPoint.Location, cycleSize, dataPoints.LineColor)
                     {

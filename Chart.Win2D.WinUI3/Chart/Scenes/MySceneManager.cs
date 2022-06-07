@@ -14,7 +14,7 @@ namespace ChartBase.Chart.Scenes;
 
 public class MySceneManager : IElement
 {
-    public IDictionary<int, IScene> Scenes { get; set; } = new Dictionary<int, IScene>();
+    public List<IScene> Scenes { get; set; } = new List<IScene>();
     public SceneBase PrimaryScene { get; set; }
 
     private List<IControl> GenericControls { get; } = new List<IControl>();
@@ -50,9 +50,12 @@ public class MySceneManager : IElement
 
     public void AddScene(IScene scene)
     {
-        Scenes[scene.Id] = scene;
+        Scenes.Add(scene);
     }
-
+    public void AddFirstScene(IScene scene)
+    {
+        Scenes.Insert(0, scene);
+    }
     public void SetPrimaryScene(SceneBase scene)
     {
         AddScene(scene);
@@ -160,7 +163,7 @@ public class MySceneManager : IElement
 
         if (Scenes.Count > 0)
         {
-            foreach (var item in Scenes.Values)
+            foreach (var item in Scenes)
             {
                 item.CalcViewWorldScale();
             }
@@ -214,7 +217,7 @@ public class MySceneManager : IElement
         StackFrame sf = (new StackTrace(0, true)).GetFrame(0);
         Logger.WriteLine($"{this.GetType().ToString()}#{sf?.GetMethod().Name}:{sf?.GetFileLineNumber()}", $"{Environment.NewLine}{Environment.StackTrace}");
 
-        foreach (var item in Scenes.Values)
+        foreach (var item in Scenes)
         {
             item.CalcControlCoordinate(c);
         }
@@ -239,7 +242,7 @@ public class MySceneManager : IElement
     {
         if (Scenes.Count > 0)
         {
-            foreach (var item in Scenes.Values)
+            foreach (var item in Scenes)
             {
                 item.Draw(cds);
             }
@@ -257,7 +260,7 @@ public class MySceneManager : IElement
 
         if (Scenes.Count > 0)
         {
-            foreach (var item in Scenes.Values)
+            foreach (var item in Scenes)
             {
                 item.Update(gi, ts);                
             }
@@ -269,7 +272,7 @@ public class MySceneManager : IElement
     public void UpdateLegendChart(GenericInput gi, TimeSpan ts)
     {
 
-        if (GlobalLegend.ShowLegend && GlobalLegend.LegendList.Count > 0)
+        if (GlobalLegend!=  null && GlobalLegend.ShowLegend && GlobalLegend.LegendList.Count > 0)
         {
             var col = new LegendContainer(PrimaryScene, GlobalLegend);
             col.Update(gi, ts);

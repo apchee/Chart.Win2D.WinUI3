@@ -114,7 +114,7 @@ public sealed partial class LineChartDemo : Page, INotifyPropertyChanged
             {
                 Title = new ChartLabel() { Label = "Individual Line Chart", ShowLabel = true },
                 XLabel = new ChartLabel() { Label = "Year", ShowLabel = true },
-                YLable = new ChartLabel() { Label = "上证指数", ShowLabel = true }
+                YLable = new ChartLabel() { Label = "Vertical Label", ShowLabel = true }
             }
         };
 
@@ -128,7 +128,7 @@ public sealed partial class LineChartDemo : Page, INotifyPropertyChanged
             {
                 Title = new ChartLabel() { Label = "Combination Line Chart", ShowLabel = true },
                 XLabel = new ChartLabel() { Label = "Year", ShowLabel = true },
-                YLable = new ChartLabel() { Label = "上证指数", ShowLabel = true }
+                YLable = new ChartLabel() { Label = "Vertical Label", ShowLabel = true }
             }
         };
 
@@ -142,7 +142,7 @@ public sealed partial class LineChartDemo : Page, INotifyPropertyChanged
             {
                 Title = new ChartLabel() { Label = "Combination Line Chart with Overlay", ShowLabel = true },
                 XLabel = new ChartLabel() { Label = "Year", ShowLabel = true },
-                YLable = new ChartLabel() { Label = "上证指数", ShowLabel = true }
+                YLable = new ChartLabel() { Label = "Vertical Label", ShowLabel = true }
             }
         };
 
@@ -166,12 +166,68 @@ public sealed partial class LineChartDemo : Page, INotifyPropertyChanged
             {
                 Title = new ChartLabel() { Label = "Combination Line Chart", ShowLabel = true },
                 XLabel = new ChartLabel() { Label = "Year", ShowLabel = true },
-                YLable = new ChartLabel() { Label = "上证指数", ShowLabel = true }
+                YLable = new ChartLabel() { Label = "Vertical Label", ShowLabel = true }
             }
         };
+
+
+
+        MainChart = new ChartDataInput()
+        {
+            Combination = CombinationType.Combination,
+            ShowLegend = true,
+            MinXTickScale = 30,
+            InputDataSeries = new List<PointArray<float?>> { LineChartDemo.SERIES1 },
+            Labels = new ChartLabels()
+            {
+                Title = new ChartLabel() { Label = "Combination Line Chart with Overlay", ShowLabel = true },
+                XLabel = new ChartLabel() { Label = "Year", ShowLabel = true },
+                YLable = new ChartLabel() { Label = "Vertical Label", ShowLabel = true }
+            }
+        };
+
+        var overlayBarChart = new ChartDataInput()
+        {
+            Combination = CombinationType.Combination,
+            ChartType = CHART_TYPE.BAR_CHART,
+            ShowLegend = true,
+            MinXTickScale = 30,
+            InputDataSeries = new List<PointArray<float?>> { LineChartDemo.SERIES2 }
+        };
+        OverlayChart = new List<ChartDataInput> { overlayBarChart };
+
+    }
+
+    private ChartDataInput _MainChart;
+    public ChartDataInput MainChart
+    {
+        get { return _MainChart; }
+        set
+        {
+            if (_MainChart != value)
+            {
+                _MainChart = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(MainChart)));
+            }
+
+        }
     }
 
 
+    private List<ChartDataInput> _OverlayChart;
+    public List<ChartDataInput> OverlayChart
+    {
+        get { return _OverlayChart; }
+        set
+        {
+            if (_OverlayChart != value)
+            {
+                _OverlayChart = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(OverlayChart)));
+            }
+
+        }
+    }
 
     private ChartDataInput _LineChartDataCombination;
     public ChartDataInput LineChartDataCombination

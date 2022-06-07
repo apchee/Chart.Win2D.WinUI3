@@ -4,11 +4,28 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Chart.Demo.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:usercontrols="using:ChartBase.Chart.UserControls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Loaded="Page_Loaded">
 
     <Grid>
+        <ScrollViewer>
+            <Grid >
+                <StackPanel >
+                    
 
+                    <Grid ColumnDefinitions="*,*">
+                        <Border Grid.Column="1" BorderThickness="0.5" BorderBrush="Gray">
+                            <usercontrols:LineChart Height="700"
+                                    Combination="Combination"
+                                    PrimaryChartData="{Binding MainChart}"
+                                                    SecondaryChartData="{Binding OverlayChart}"/>
+                        </Border>
+                    </Grid>
+
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
     </Grid>
 </Page>

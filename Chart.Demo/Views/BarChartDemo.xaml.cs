@@ -29,6 +29,7 @@ public sealed partial class BarChartDemo : Page, INotifyPropertyChanged
     public BarChartDemo()
     {
         this.InitializeComponent();
+        this.DataContext = this;
     }
 
     public event PropertyChangedEventHandler PropertyChanged;
@@ -36,9 +37,63 @@ public sealed partial class BarChartDemo : Page, INotifyPropertyChanged
 
     private void Page_Loaded(object sender, RoutedEventArgs e)
     {
-       
+
+        MainChart = new ChartDataInput()
+        {
+            Combination = CombinationType.Combination,
+            ShowLegend = true,
+            MinXTickScale = 30,
+            InputDataSeries = new List<PointArray<float?>> { LineChartDemo.SERIES1 },
+            Labels = new ChartLabels()
+            {
+                Title = new ChartLabel() { Label = "Combination Line Chart with Overlay", ShowLabel = true },
+                XLabel = new ChartLabel() { Label = "Year", ShowLabel = true },
+                YLable = new ChartLabel() { Label = "Vertical Label", ShowLabel = true }
+            }
+        };
+
+        var overlayBarChart = new ChartDataInput()
+        {
+            Combination = CombinationType.Combination,
+            ChartType = CHART_TYPE.BAR_CHART,
+            ShowLegend = true,
+            MinXTickScale = 30,
+            InputDataSeries = new List<PointArray<float?>> { LineChartDemo.SERIES2 }
+        };
+        OverlayChart = new List<ChartDataInput> { overlayBarChart };
     }
 
 
+
+    private ChartDataInput _MainChart;
+    public ChartDataInput MainChart
+    {
+        get { return _MainChart; }
+        set
+        {
+            if (_MainChart != value)
+            {
+                _MainChart = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(MainChart)));
+            }
+
+        }
+    }
+
+
+    private List<ChartDataInput> _OverlayChart;
+    public List<ChartDataInput> OverlayChart
+    {
+        get { return _OverlayChart; }
+        set
+        {
+            if (_OverlayChart != value)
+            {
+                _OverlayChart = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(OverlayChart)));
+            }
+
+        }
+    }
 
 }

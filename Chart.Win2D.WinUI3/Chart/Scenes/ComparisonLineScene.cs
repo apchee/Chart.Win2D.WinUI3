@@ -36,6 +36,9 @@ public class ComparisonLineScene : SceneBase
 
     private void UpdateComparisonDataPoint(CanvasControl cc)
     {
+        if (SceneViewWin.HorizentalTickCoordinators == null)
+            return;
+
         if (SceneViewWin.HorizentalTickCoordinators.Length <= SceneViewWin.ComparingPointIndex)
             return;
         var ht = SceneViewWin.HorizentalTicks[SceneViewWin.ComparingPointIndex];

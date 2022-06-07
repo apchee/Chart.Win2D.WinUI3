@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ChartBase.Models;
 
-public class ChartDataInput
+public class ChartDataInput:ICloneable
 {
     public List<PointArray<float?>> InputDataSeries { get; set; }=new List<PointArray<float?>>();
     public ChartLabels Labels { get; set; } = new ChartLabels();
@@ -17,15 +17,20 @@ public class ChartDataInput
 
     public CombinationType Combination { get; set; } = CombinationType.Combination;
 
+    public CHART_TYPE ChartType { get; set; } = CHART_TYPE.LINE_CHART;
+
     // 是否用 K, M, B压缩数字
     public UiBool CompressYLabel { get; set; } = UiBool.Unknow;
 
-    // 去年小数
+    // 去小数
     public UiBool TrimDecimal { get; set; } = UiBool.Unknow;
 
     public int MinXTickScale { get; set; } = 30;
+
     public float? ReferenceValue { get; set; } = null;
     public int ComparisingIndex { get; set; } = 0;
+    public int RangeOfBeginningIndexFromLast { get; set; }
+
 
     // Please note this index is based on last data point index
     // This means the last one of index is 0, the last second one of index is 1
@@ -79,6 +84,9 @@ public class ChartDataInput
 
     public void TrimEmptyLastPoint()
     {
+        if (InputDataSeries == null || InputDataSeries.Count == 0)
+            return;
+
         var result = InputDataSeries.All(e=>e.DataPoints.Length>0 && e.DataPoints[e.DataPoints.Length-1] == null);
         if (result)
         {
@@ -111,16 +119,32 @@ public class ChartDataInput
         }
     }
 
-    public void CutOffBySeriesValue(int beginningYear)
+    public ChartDataInput CutOffByIndexValue(int beginningYear)
     {
-        int index = GetSeriesIndexBySeriesValue(beginningYear);
+        int index = GetSeriesIndexByIndexValue(beginningYear);
         index--;
-        if (index <= 0)
-            return;
-        CutOffByIndex(index);
+        if (index > 0)
+        {
+            CutOffByIndex(index);
+        }
+        return this;
     }
 
-    public int GetSeriesIndexBySeriesValue(int seriesValue)
+    public int ReverseBaseComparisonIndex(int index)
+    {
+        if (HorizentalTicks.Length == 0)
+            return 0;
+        if (HorizentalTicks.Length <= index)
+            return HorizentalTicks.Length;
+        else
+            return HorizentalTicks.Length - index;
+    }
+    public int GetSeriesIndexBySeriesValueFromLast(int indexedValue)
+    {
+        return ReverseBaseComparisonIndex(GetSeriesIndexByIndexValue(indexedValue));
+    }
+
+    public int GetSeriesIndexByIndexValue(int seriesValue)
     {
         if (HorizentalTicks.Length == 0)
             return 0;
@@ -150,5 +174,29 @@ public class ChartDataInput
             return 0;
         return InputDataSeries[0].Length;
     }
+
+    public object Clone()
+    {
+        var clone = (ChartDataInput) this.MemberwiseClone();
+        HandleCloned(clone);
+        return clone;
+    }
+
+    private void HandleCloned(ChartDataInput clone)
+    {
+        var series = new List<PointArray<float?>>();
+        foreach (var item in InputDataSeries)
+        {
+            series.Add((PointArray<float?>)item.Clone());
+        }
+        clone.InputDataSeries = series;
+    }
+}
+
+public enum CHART_TYPE
+{
+    LINE_CHART,
+    BAR_CHART,
+    PIE_CHART
 }
 

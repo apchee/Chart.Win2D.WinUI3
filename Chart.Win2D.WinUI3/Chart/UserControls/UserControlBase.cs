@@ -95,11 +95,6 @@ public abstract class UserControlBase: UserControl
         ucb.Update();
     }
 
- 
-    //public static readonly DependencyProperty MultiDataPointSeriesesProperty =
-    //DependencyProperty.Register(nameof(MultiDataPointSerieses), typeof(List<PointArray<float?>>), typeof(UserControlBase), 
-    //    new PropertyMetadata(null, new PropertyChangedCallback(SyntheticalDataInput_Changed)));
-
     private static void PrimarySeriesDataChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         Logger.WriteLine(typeof(UserControlBase), new StackTrace(0, true), "");
@@ -180,14 +175,18 @@ public abstract class UserControlBase: UserControl
         if (!IsCanvasValid())
             return;
 
+        CanvasControl canvas = GetCanvasControl();
+
         SceneManager.Reset();
         SceneManager.CanvasSizeChanged(GetActualWidth(), GetActualHeight());
 
         // 3.1 If PrimaryChartData is null, return;
-        if (PrimaryChartData == null || PrimaryChartData.InputDataSeries == null || PrimaryChartData.InputDataSeries.Count == 0)
-            return;
-
-        SeriesDataChanged();
+        //if (PrimaryChartData != null && PrimaryChartData.InputDataSeries != null && PrimaryChartData.InputDataSeries.Count > 0)
+        if (PrimaryChartData != null)
+        {
+            SeriesDataChanged();
+        }
+        canvas.Invalidate();
     }
 
     /*
@@ -217,8 +216,7 @@ public abstract class UserControlBase: UserControl
         CalcCoordinate(canvas);
 
         UpdateElementCoordinate(canvas, new GenericInput("Unknow") { Creator = canvas });
-        BeforeCanvasInvalidate();
-        canvas.Invalidate();
+        BeforeCanvasInvalidate();       
 
     }
 
@@ -243,10 +241,14 @@ public abstract class UserControlBase: UserControl
         var dataPointSize = new HashSet<int>();
         foreach (var series in PrimaryChartData.InputDataSeries)
         {
-            dataPointSize.Add(series.DataPoints.Length);
+            if (series.DataPoints == null)
+                continue;
+            if(series.DataPoints.Length > 0)
+                dataPointSize.Add(series.DataPoints.Length);
         }
         if(PrimaryChartData.HorizentalTicks != null && PrimaryChartData.HorizentalTicks.Length > 0)
             dataPointSize.Add(PrimaryChartData.HorizentalTicks.Length);
+
         if (dataPointSize.Count > 1)
             throw new ArgumentException("Length of data point in serieses is not consistent");
 
@@ -358,53 +360,7 @@ public abstract class UserControlBase: UserControl
         return legendInfo;
     }
 
-    //public string[] XAxisTicks
-    //{
-    //    get { return (string[])GetValue(XAxisTicksProperty); }
-    //    set { SetValue(XAxisTicksProperty, value); }
-    //}
-
-    //public static readonly DependencyProperty XAxisTicksProperty =
-    //    DependencyProperty.Register(
-    //        nameof(XAxisTicks),
-    //        typeof(string[]),
-    //        typeof(UserControlBase),
-    //        new PropertyMetadata(default(string[]))
-    //    );
-
-
-    //public bool ShowLegend
-    //{
-    //    get { return (bool)GetValue(ShowLegendProperty); }
-    //    set { SetValue(ShowLegendProperty, value); }
-    //}
-
-    //public static readonly DependencyProperty ShowLegendProperty =
-    //    DependencyProperty.Register(
-    //        nameof(ShowLegend),
-    //        typeof(bool),
-    //        typeof(UserControlBase),
-    //        new PropertyMetadata(default(bool))
-    //    );
-
     #endregion
-
-    //public static BounchOfSeries<PointShape> ConvertPointData(List<PointArray<float?>> multiDataPointSerieses)
-    //{
-    //    if (multiDataPointSerieses == null)
-    //        return null;
-    //    List < PointSeries < PointShape >> sd = new List<PointSeries<PointShape>> ();
-    //    foreach (PointArray<float?> point in multiDataPointSerieses)
-    //    {
-    //        if(point != null && point.Length>0)
-    //            sd.Add(new PointSeries<PointShape>().Transform(point, (o) => { return new PointShape(o); }));
-    //    }
-
-    //    var re =  new BounchOfSeries<PointShape>(sd.ToArray());
-    //    return re;
-    //}
-
-
 
 }
 

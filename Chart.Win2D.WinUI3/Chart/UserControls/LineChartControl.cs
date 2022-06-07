@@ -49,12 +49,12 @@ public class LineChartControl : ControlContainerBase
         // tick scale on X axis
         float[] HorizentalTickCoordinators = new float[Serieses.MaxPointSize()];
         ViewWindow globalViewWin = Scene.SceneManager.GlobalViewWindow;
-        SceneViewWin.X_Step = (globalViewWin.RoomSolid_Right_X - globalViewWin.RoomSolid_Left_X) / Serieses.MaxPointSize();
-        float start = globalViewWin.RoomSolid_Left_X + SceneViewWin.X_Step / 2;
+        SceneViewWin.X_StepSpace = (globalViewWin.RoomSolid_Right_X - globalViewWin.RoomSolid_Left_X) / Serieses.MaxPointSize();
+        float start = globalViewWin.RoomSolid_Left_X + SceneViewWin.X_StepSpace / 2;
         for (int i = 0; i < HorizentalTickCoordinators.Length; i++)
         {
             HorizentalTickCoordinators[i] = start;
-            start += SceneViewWin.X_Step;
+            start += SceneViewWin.X_StepSpace;
         }
         
         // 计算每一个数据点的Y 坐标

@@ -64,7 +64,7 @@ public class LegendControl : ButtonElement, IControlContainer
         line.Update(gi, ts);
         controls.Add(line);
 
-        if(legendInfo.Marker == MarkerType.Point)
+        if(legendInfo.Marker == MarkerShape.Point)
         {
             float cycleSize = StrokeWidth + 2;
             if (legendInfo.IsClicked)
