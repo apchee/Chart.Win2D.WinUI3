@@ -38,6 +38,9 @@ public class PointArray<T>:ICloneable
     public object Tag { get; set; }
     public string Identifier { get; set; }
 
+    public bool SupportAltLineColor { get; set; } = false;
+    public Color AltLineColor { get; set; } = Colors.Green;
+
     public object Clone()
     {
         var clone = (PointArray<T>)this.MemberwiseClone();

@@ -27,6 +27,19 @@ public class BounchOfSeries<T>  where T : PointShape
         MinVirtualValue = MinVirtual();
         MaxWorldValue = MaxWorld();
         MinWorldValue = MinWorld();
+        if(MaxVirtualValue == MinVirtualValue)
+        {
+            var step = (float)Math.Abs(MaxVirtualValue * 0.1);
+            MinVirtualValue -= step;
+            MaxVirtualValue += step;
+        }
+
+        if(MaxWorldValue == MinWorldValue)
+        {
+            var step = Math.Abs(MaxWorldValue);
+            MinWorldValue -= step;
+            MaxWorldValue += step;
+        }
     }
 
     public PointSeries<T> this[int index]{
@@ -73,6 +86,9 @@ public class BounchOfSeries<T>  where T : PointShape
     {
         if (maxLength > 0)
             return maxLength;
+
+        if (Serieses.Length == 0)
+            return 0;
 
         foreach (var item in Serieses)
         {

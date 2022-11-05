@@ -3,6 +3,7 @@ using ChartBase.utils;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Geometry;
 using Microsoft.Graphics.Canvas.UI.Xaml;
+using Microsoft.UI;
 using System.Numerics;
 using Windows.UI;
 
@@ -29,10 +30,13 @@ public class StraightLine : ControlBase
 
     public override void Draw(CanvasDrawingSession cds)
     {
-        if(StrokeStyle==null)
-            cds.DrawLine(Location, Target, ForgroundColor, LineWidth);
+        Color forgColor = ForgroundColor;
+        if (SupportAltLineColor && Target.Y > Location.Y)
+            forgColor = AltLineColor;
+        if (StrokeStyle==null)
+            cds.DrawLine(Location, Target, forgColor, LineWidth);
         else
-            cds.DrawLine(Location, Target, ForgroundColor, LineWidth, StrokeStyle);
+            cds.DrawLine(Location, Target, forgColor, LineWidth, StrokeStyle);
     }
 
     public override bool OnHover(GenericInput gi)
@@ -51,5 +55,7 @@ public class StraightLine : ControlBase
     }
 
     public Vector2 Target { get; set; }
+    public bool SupportAltLineColor { get; set; } = false;
+    public Color AltLineColor { get; set; } = Colors.Green;
 }
 

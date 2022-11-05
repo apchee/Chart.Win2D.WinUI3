@@ -39,6 +39,8 @@ public class LineControlContainer : ControlBase
                 continue;
             }
             StraightLine al = new StraightLine();
+            al.SupportAltLineColor = dataPoints.SupportAltLineColor;
+            al.AltLineColor = dataPoints.AltLineColor;
             al.LineWidth = dataPoints.LineWidth;
             al.Location = start.Location;
             al.Target = point.Location;

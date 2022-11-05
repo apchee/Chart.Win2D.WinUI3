@@ -33,6 +33,8 @@ public class PointSeries<T> : PointArray<T> where T : PointShape
         Id = points.Id;
         DataPoints = Transform(points.DataPoints, func);
         LineColor = points.LineColor;
+        SupportAltLineColor = points.SupportAltLineColor;
+        AltLineColor = points.AltLineColor;
         LineWidth = points.LineWidth;
         Legend = points.Legend;
         Marker = points.Marker;

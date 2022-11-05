@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -48,6 +49,22 @@ public static class Logger
         return ri;
 
     }
+
+    //public static void LogMessage(string message="LOGGING: ")
+    //{
+    //    TraceMessage(message);
+    //}
+
+    public static void TraceMessage(string message,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0)
+    {
+        var sf = sourceFilePath.Substring(sourceFilePath.LastIndexOf("\\")+1);
+        var fullMessage = $">>>>>>>>>>>>>>>>>>>>\t{sf}.{memberName}#{sourceLineNumber}: {message}";
+        Trace.WriteLine(fullMessage);
+    }
+
 
     public static void WriteLine(string methodName, string message)
     {

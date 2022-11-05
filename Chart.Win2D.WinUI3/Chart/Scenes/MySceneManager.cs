@@ -158,8 +158,8 @@ public class MySceneManager : IElement
 
     public virtual void CalcViewWorldScale()
     {
-        StackFrame sf = (new StackTrace(0, true)).GetFrame(0);
-        Logger.WriteLine($"{this.GetType()}#{sf?.GetMethod().Name}:{sf?.GetFileLineNumber()}", $"{Environment.NewLine}{Environment.StackTrace}");
+        //StackFrame sf = (new StackTrace(0, true)).GetFrame(0);
+        //Logger.WriteLine($"{this.GetType()}#{sf?.GetMethod().Name}:{sf?.GetFileLineNumber()}", $"{Environment.NewLine}{Environment.StackTrace}");
 
         if (Scenes.Count > 0)
         {
@@ -214,8 +214,8 @@ public class MySceneManager : IElement
 
     public void CalcControlCoordinate(CanvasControl c)
     {
-        StackFrame sf = (new StackTrace(0, true)).GetFrame(0);
-        Logger.WriteLine($"{this.GetType().ToString()}#{sf?.GetMethod().Name}:{sf?.GetFileLineNumber()}", $"{Environment.NewLine}{Environment.StackTrace}");
+        //StackFrame sf = (new StackTrace(0, true)).GetFrame(0);
+        //Logger.WriteLine($"{this.GetType().ToString()}#{sf?.GetMethod().Name}:{sf?.GetFileLineNumber()}", $"{Environment.NewLine}{Environment.StackTrace}");
 
         foreach (var item in Scenes)
         {
@@ -231,7 +231,7 @@ public class MySceneManager : IElement
      */
     public void Reset()
     {
-        Logger.WriteLine(GetType(), new StackTrace(0, true), $"{Environment.NewLine}{Environment.StackTrace}");
+        //Logger.WriteLine(GetType(), new StackTrace(0, true), $"{Environment.NewLine}{Environment.StackTrace}");
 
         Scenes.Clear();
         PrimaryScene = null;
@@ -255,8 +255,8 @@ public class MySceneManager : IElement
 
     public void Update(GenericInput gi, TimeSpan ts)
     {
-        StackFrame sf = (new StackTrace(0, true)).GetFrame(0);
-        Logger.WriteLine($"{this.GetType().ToString()}#{sf?.GetMethod().Name}:{sf?.GetFileLineNumber()}", $"{Environment.NewLine}{Environment.StackTrace}");
+        //StackFrame sf = (new StackTrace(0, true)).GetFrame(0);
+        //Logger.WriteLine($"{this.GetType().ToString()}#{sf?.GetMethod().Name}:{sf?.GetFileLineNumber()}", $"{Environment.NewLine}{Environment.StackTrace}");
 
         if (Scenes.Count > 0)
         {

@@ -82,10 +82,10 @@ public class ChartDataInput:ICloneable
         return lg;
     }
 
-    public void TrimEmptyLastPoint()
+    public ChartDataInput TrimEmptyLastPoint()
     {
         if (InputDataSeries == null || InputDataSeries.Count == 0)
-            return;
+            return this;
 
         var result = InputDataSeries.All(e=>e.DataPoints.Length>0 && e.DataPoints[e.DataPoints.Length-1] == null);
         if (result)
@@ -100,6 +100,7 @@ public class ChartDataInput:ICloneable
             Array.Copy(HorizentalTicks, 0, hs, 0, HorizentalTicks.Length - 1);
             HorizentalTicks = hs;
         }
+        return this;
     }
 
     public void CutOffByIndex(int index)
@@ -163,9 +164,16 @@ public class ChartDataInput:ICloneable
         return index;
     }
 
-    public void UpdateTitle(string title)
+    public ChartDataInput UpdateTitle(string title)
     {
         Labels.Title.Label = title;
+        Labels.Title.ShowLabel = true;
+        return this;
+    }
+    public ChartDataInput ShowtTitleLabel(bool show)
+    {
+        Labels.Title.ShowLabel = show;
+        return this;
     }
 
     internal int GetDataPointSizeOfSeries()
@@ -190,6 +198,12 @@ public class ChartDataInput:ICloneable
             series.Add((PointArray<float?>)item.Clone());
         }
         clone.InputDataSeries = series;
+    }
+
+    public ChartDataInput UpdateCompressYLabel(UiBool no)
+    {
+        CompressYLabel = UiBool.No;
+        return this;
     }
 }
 

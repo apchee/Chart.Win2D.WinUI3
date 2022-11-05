@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using WinRT;
 
 namespace ChartBase.Chart.UserControls;
 
@@ -57,6 +58,7 @@ public abstract class UserControlBase: UserControl
     protected abstract void SecondarySeriesDataChanged();
 
     #region Dependencies
+
 
 
     public ChartDataInput PrimaryChartData
@@ -364,3 +366,20 @@ public abstract class UserControlBase: UserControl
 
 }
 
+class ChartEventArgs : RoutedEventArgs
+{
+    public ChartEventArgs()
+    {
+    }
+
+    protected ChartEventArgs(DerivedComposed _) : base(_)
+    {
+    }
+
+    protected internal ChartEventArgs(IObjectReference objRef) : base(objRef)
+    {
+    }
+
+    public object Parameters { get; set; }
+    public string EventType { get; set; }
+}
